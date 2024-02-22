@@ -22,8 +22,8 @@ The text chat moderation workflow follows a similar pattern to audio moderation,
 ## Start the app
 ### Clone source code to your local drive
 ```
-git clone git@ssh.gitlab.aws.dev:lanaz/aws-genai-policy-evaluation.git
-cd aws-genai-policy-evaluation
+git clone https://github.com/aws-samples/aws-genai-audio-text-chat-moderation
+cd aws-genai-audio-text-chat-moderation
 ```
 ### Create Python Virtual Environment
 ```
