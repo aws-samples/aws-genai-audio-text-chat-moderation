@@ -1,0 +1,7 @@
+streamlit
+botocore
+boto3==1.33.2
+awscli
+retrying
+streamlit-cognito-auth==1.2.0
+st-annotated-text
