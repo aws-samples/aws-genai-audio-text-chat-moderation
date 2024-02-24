@@ -13,9 +13,15 @@ Please consider and provide your analysis in the <analysis> tag, keeping the ana
 Assistant:"""
 
 
-TEXT_EVAL_PROMPTS_TEMPLATE = """Human: Does the below message in the <message> tag violate the policy in the <policy> tag? 
-    Answer in the either 'Y' or 'N' in '<answer>' tag. 'Y' indicates that the message violates the policy, while 'N' means the content is safe and does not violate the policy.     
-    Please provide your analysis in the <analysis> tag, keep and analysis within 80 words. 
-    <message>{}</message>
-    <policy>{}</policy>
-    Assistant:"""
+TEXT_EVAL_PROMPTS_TEMPLATE = """Human: You are a Trust & Safety expert. 
+Your job is to review user chat message and decide if it violate the policy. 
+You will find the chat message in <message> tag, and find the policy in the <policy> tag.
+
+<policy>{policy}</policy>
+<message>{message}</message>
+
+Does the chat message violate the policy? 
+Please consider and provide your analysis in the `<analysis>` tag, breaking down each rule in the rule section, and keep and analysis within 100 words. 
+Respond in the `<answer>` tag with either 'Y' or 'N'. 'Y' indicates that the message violates the policy, while 'N' means the content is safe and does not violate the policy.
+
+Assistant:"""
