@@ -14,6 +14,9 @@ The text chat moderation workflow follows a similar pattern to audio moderation,
 
 ![image-rag](static/text-moderation.png)
 
+## Recommended environment
+This sample app in Streamlit showcase the workflows for audio and text chat moderation. To start the web service and browse the website, we recommend using your local desktop with a modern browser (Windows or Mac), or utilizing Amazon Cloud9, or starting a Windows EC2 instance. This way, you can use a browser to access the website hosted on the same machine, avoiding the need for additional network security setup.
+
 ## Prerequisites
 - You'll require an IAM role or user with access to AWS services including S3, Transcribe, Comprehend, Translate, and Bedrock.
 - In Amazon Bedrock, make sure you have access to the LLMs. Refer to [this instruction](https://catalog.workshops.aws/building-with-amazon-bedrock/en-US/prerequisites/bedrock-setup) for detail.
