@@ -43,9 +43,9 @@ export BEDROCK_KNOWLEDGE_BASE_ID=YOUR_KNOWLEDGE_BASE_ID
 export AWS_REGION=AWS_REGION (Optional. Default value: us-east-1)
 export AWS_S3_PREFIX=YOUR_S3_PREFIX (Optional. Default value: policy-eval-demo)
 ```
-If you want to enable Cognitio User Pool for user login:
+Set up the following environment variables if you wish to enable Cognito User Pool for user login. The application will ignore login if you leave them null.
 ```
-export COGNITIO_POOL_ID=YOUR_COGNITIO_POOL_ID
+export COGNITIO_POOL_ID=YOUR_COGNITIO_USER_POOL_ID
 export COGNITIO_APP_CLIENT_ID=YOUR_COGNITIO_APP_CLIENT_ID
 ```
 
