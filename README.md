@@ -37,10 +37,11 @@ pip install -r requirements.txt
 ### Setup environment variables
 Configure the below environment variables:
 ```
-export AWS_REGION=AWS_REGION (Optional. Default value: us-east-1)
 export AWS_BUCKET_NAME=YOUR_S3_BUCKET_NAME
-export AWS_S3_PREFIX=YOUR_S3_PREFIX (Optional. Default value: policy-eval-demo)
 export BEDROCK_KNOWLEDGE_BASE_ID=YOUR_KNOWLEDGE_BASE_ID
+
+export AWS_REGION=AWS_REGION (Optional. Default value: us-east-1)
+export AWS_S3_PREFIX=YOUR_S3_PREFIX (Optional. Default value: policy-eval-demo)
 ```
 If you want to enable Cognitio User Pool for user login:
 ```
