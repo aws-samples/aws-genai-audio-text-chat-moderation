@@ -12,9 +12,12 @@ from helper import constants
 
 SAMPLE_DATA_FOLDER = "data/audio_eval/"
 
-if 'is_logged_in' not in st.session_state or not st.session_state['is_logged_in']:
-    st.text("Please login using the Home page.")
-    st.stop()
+pool_id = os.environ.get("COGNITIO_POOL_ID")
+app_client_id = os.environ.get("COGNITIO_APP_CLIENT_ID")
+enable_cognito = pool_id is not None and app_client_id is not None and len(pool_id) > 0 and len(app_client_id) > 0
+if enable_cognito and ('is_logged_in' not in st.session_state or not st.session_state['is_logged_in']):
+        st.text("Please login using the Home page.")
+        st.stop()
     
 st.set_page_config(page_title="Video/Audio Policy Evaluation Demo", layout="wide") 
 st.title("Audio Moderation Demo") 
