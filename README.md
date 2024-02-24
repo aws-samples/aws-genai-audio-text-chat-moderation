@@ -46,4 +46,4 @@ set $COGNITIO_APP_CLIENT_ID=YOUR_COGNITIO_APP_CLIENT_ID
 ```
 ### Start the streamlit app
 ```
-streamlit run app.py
+streamlit run Home.py
