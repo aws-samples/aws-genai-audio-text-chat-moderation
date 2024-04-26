@@ -89,31 +89,31 @@ def transcribe_audio(s3_bucket, s3_key, detect_language=False, enable_toxicity=T
         transcribe.start_transcription_job(
                         TranscriptionJobName = job_name,
                         Media = { 'MediaFileUri': f's3://{s3_bucket}/{s3_key}'},
-                        OutputBucketName = s3_bucket, 
+                        OutputBucketName = s3_bucket,
                         OutputKey = TRANSCRIBE_OUTPUT_PREFIX,
                         IdentifyLanguage=True,
-                    )   
+                    )
     elif enable_toxicity:
         transcribe.start_transcription_job(
                         TranscriptionJobName = job_name,
                         Media = { 'MediaFileUri': f's3://{s3_bucket}/{s3_key}'},
-                        OutputBucketName = s3_bucket, 
+                        OutputBucketName = s3_bucket,
                         OutputKey = TRANSCRIBE_OUTPUT_PREFIX,
                         LanguageCode = 'en-US',
                         ToxicityDetection = [{'ToxicityCategories': ['ALL']}]
-                    ) 
+                    )
     else:
         transcribe.start_transcription_job(
                         TranscriptionJobName = job_name,
                         Media = { 'MediaFileUri': f's3://{s3_bucket}/{s3_key}'},
-                        OutputBucketName = s3_bucket, 
+                        OutputBucketName = s3_bucket,
                         OutputKey = TRANSCRIBE_OUTPUT_PREFIX,
                         LanguageCode = 'en-US'
-                    ) 
+                    )
 
     # Wait until job completes
     job = transcribe.get_transcription_job(TranscriptionJobName = job_name)
-    
+
     print("Transcribing audio. Job name: {0}".format(job_name))
     while(job['TranscriptionJob']['TranscriptionJobStatus'] not in ['COMPLETED', 'FAILED']):
         time.sleep(5)
@@ -170,7 +170,7 @@ def detect_language(text):
     if response is not None and "Languages" in response and len(response["Languages"]) > 0:
         return response["Languages"][0]["LanguageCode"]
 
-    return None    
+    return None
 
 def parse_value(text, key):
     arr = text.split(f'<{key}>')
@@ -190,7 +190,7 @@ def call_bedrock_knowledge_base(message, prompts_template):
             'text': message
         },
         retrievalConfiguration={
-            "vectorSearchConfiguration": { 
+            "vectorSearchConfiguration": {
                 "numberOfResults": 3
             }
         }
@@ -204,7 +204,7 @@ def call_bedrock_knowledge_base(message, prompts_template):
     prompt = prompts_template.format(message, policy)
     analysis,answer = call_bedrock_llm(prompt)
 
-    references = [] 
+    references = []
     for c in retrieval_results:
         r = {
                 'text':c['content']['text'],
@@ -212,7 +212,7 @@ def call_bedrock_knowledge_base(message, prompts_template):
             }
         if r not in references:
             references.append(r)
-    
+
     return {
         "answer":answer,
         "analysis":analysis,
@@ -231,7 +231,7 @@ def detect_celebrity_video(s3_bucket, s3_key):
 
     celebrityJobId = startCelebrityRekognition['JobId']
     print("Detecting celebrities. Job Id: {0}".format(celebrityJobId))
-    
+
     getCelebrityRecognition = rekognition.get_celebrity_recognition(
         JobId=celebrityJobId,
         SortBy='TIMESTAMP'
@@ -245,7 +245,7 @@ def detect_celebrity_video(s3_bucket, s3_key):
             JobId=celebrityJobId,
             SortBy='TIMESTAMP')
     print(getCelebrityRecognition['JobStatus'])
-    
+
     result = []
     # Celebrities detected in each frame
     for celebrity in getCelebrityRecognition['Celebrities']:
@@ -254,8 +254,8 @@ def detect_celebrity_video(s3_bucket, s3_key):
             if(cconfidence > 90):
                 cname = celebrity["Celebrity"]["Name"]
                 if cname not in result:
-                    result.append(cname)    
-    
+                    result.append(cname)
+
     return result
 
 def call_bedrock_llm(prompt):
@@ -265,7 +265,7 @@ def call_bedrock_llm(prompt):
             "temperature": 0,
             "top_k": 250,
             "top_p": 0.999
-          })
+            })
     response = bedrock_runtime.invoke_model(
         body=body,
         contentType='application/json',
