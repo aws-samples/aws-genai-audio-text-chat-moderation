@@ -1,6 +1,6 @@
 streamlit
 botocore
-boto3==1.33.2
+boto3==1.34.92
 awscli
 retrying
 streamlit-cognito-auth==1.2.0
