@@ -68,11 +68,11 @@ with audio_eval_tab:
                 display_trans = full_trans
                 traslated_text = full_trans
                 st.session_state['toxicity_source'] = "comprehend" if "toxicity_detection" not in original else "transcribe"
-                
+
                 # Translate transcription if not in english
                 if "language_code" in original["results"]:
                     language_code = original["results"]["language_code"][0:2]
-                    if language_code != "en":                        
+                    if language_code != "en":
                         traslated_text = lib.translate_text(full_trans,language_code)
                         if traslated_text is None:
                             st.warning(f'Unsupported language detected in the audio: {full_trans,original["results"]["language_code"]}',icon="⚠️")
@@ -100,9 +100,9 @@ with audio_eval_tab:
                     st.subheader("Transcriptions and policy evaluation")
                     toxic_max, violation = 0, False
                     for tran in transcriptions:
-                        if "toxicity" in tran and tran["toxicity"] >= toxic_max: 
+                        if "toxicity" in tran and tran["toxicity"] >= toxic_max:
                             toxic_max = tran["toxicity"]
-                        
+
                         response = None
                         if not enable_toxicity_dependency or tran["toxicity"] > lib_ui.get_toxicity_threshold(st.session_state['toxicity_source']):
                             response = lib.call_bedrock_knowledge_base(tran["text"], prompt_template)
@@ -139,17 +139,17 @@ with audio_eval_tab:
             # Plot report
             lib_ui.plot_audio_eval_report(st.session_state['audio_eval_result'], False)
 
-with audio_sample_tab: 
+with audio_sample_tab:
     st.subheader("Sample policy evaluation report")
 
     if os.path.exists(SAMPLE_DATA_FOLDER):
-        option = st.selectbox("Select a sample audio", 
+        option = st.selectbox("Select a sample audio",
             tuple(file for file in os.listdir(SAMPLE_DATA_FOLDER) if os.path.isfile(os.path.join(SAMPLE_DATA_FOLDER, file)))
         )
         if len(option) > 0:
             # Plot UI
             file_path = f"{SAMPLE_DATA_FOLDER}{option}"
-            
+
             data = None
             # Open and read the JSON file
             with open(file_path, "r") as json_file:

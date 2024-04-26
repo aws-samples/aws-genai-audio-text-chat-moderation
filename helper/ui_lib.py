@@ -1,6 +1,6 @@
 import os
 import json
-import streamlit as st 
+import streamlit as st
 from annotated_text import annotated_text
 from jinja2 import Template
 import boto3
@@ -19,7 +19,7 @@ def get_toxicity_threshold(toxicity_source):
 
 
 def display_toxicity_analysis(toxicity_data):
-    st.subheader("Segement transcription and toxicity analysis")
+    st.subheader("Segment transcription and toxicity analysis")
 
     col1, col2 = st.columns(2)
 
@@ -72,7 +72,7 @@ def plot_audio_eval_report(data, show_audio=True):
         st.markdown(f'***Violation:*** :red[{data["violation"]}]')
     else:
         st.markdown(f'***Violation:*** :green[{data["violation"]}]')
-    
+
     st.markdown('***Full transcription:***')
     st.caption(data["full_transcription"])
 
@@ -144,7 +144,7 @@ def generate_video_eval_html(data, file_name):
             image_class = "alert"
         elif t["transcription"]["toxicity"] >= threshold or t["llm_response"]["answer"] == "Y":
             image_class = "warn"
-        
+
         cates, refs = "", ""
         for key, value in t["transcription"]["categories"].items():
             cates += f"<li>{ key }: { value }</li>"
@@ -154,7 +154,7 @@ def generate_video_eval_html(data, file_name):
         title = t["transcription"]["text"]
         if "start_time" in t["transcription"] and "end_time" in t["transcription"]:
             title = f'[{t["transcription"]["start_time"]} - {t["transcription"]["end_time"]}] ' + title
-    
+
         segments += f'''
             <div class="container">
                 <button id="btntoogle_{idx}" class="toggle-btn" onclick="toggleContent({idx})">&or;</button> 
@@ -217,7 +217,7 @@ def generate_video_eval_html(data, file_name):
                 background-color: transparent;
                 font-size: large;
             }
-    
+
             /* Style for the content div */
             .content {
                 display:none;
@@ -271,7 +271,7 @@ def generate_video_eval_html(data, file_name):
                 else  {
                     contentDiv.style.display = 'block';
                     btntoogle.innerHTML = "&and;";
-                } 
+                }
             }
         </script>
         <div>
@@ -282,12 +282,12 @@ def generate_video_eval_html(data, file_name):
         </div>
         <div>
             <h4>Violation: ##violation##</h3>
-        </div>        
+        </div>
         <div>
             <h3>Full Transcription</h3>
             <p class="transcription">##full_transcription##</p>
         </div>
-        
+
         <h3>Policy evaluation by segment</h3>
         <div class="subtitle">Toxicity analysis (##toxicity_source##) and policy evalution (Bedrock LLMs) on the audio segment level</div>
         ##segments##
@@ -308,7 +308,7 @@ def generate_video_eval_html(data, file_name):
 
 def generate_text_eval_html(data, file_name, threshold=0.6):
     segments = ""
-    # Add extra fileds for UI display
+    # Add extra fields for UI display
     trans = data["evaluations"]
     idx = -1
     for t in trans:
@@ -318,7 +318,7 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
             image_class = "alert"
         elif t["toxicity"]["toxicity"] >= threshold or t["llm"]["answer"] == "Y":
             image_class = "warn"
-        
+
         cates, refs = "", ""
         for key, value in t["toxicity"]["categories"].items():
             cates += f"<li>{ key }: { value }</li>"
@@ -326,7 +326,7 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
             refs += f'<li>{ r["text"] } - <a href="{r["s3_location"] }">Link</a></li>'
 
         title = t["raw_text"]
-    
+
         segments += f'''
             <div class="container">
                 <button id="btntoogle_{idx}" class="toggle-btn" onclick="toggleContent({idx})">&or;</button> 
@@ -389,7 +389,7 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
                 background-color: transparent;
                 font-size: large;
             }
-    
+
             /* Style for the content div */
             .content {
                 display:none;
@@ -443,13 +443,13 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
                 else  {
                     contentDiv.style.display = 'block';
                     btntoogle.innerHTML = "&and;";
-                } 
+                }
             }
         </script>
         <div>
             <h2>File name: ##file_name##</h2>
-        </div>     
-        
+        </div>
+
         <div class="subtitle">Toxicity analysis (Comprehend) and policy evalution (Bedrock LLMs)</div>
         ##segments##
     </body>

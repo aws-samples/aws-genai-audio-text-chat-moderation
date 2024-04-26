@@ -20,15 +20,15 @@ if enable_cognito and ('is_logged_in' not in st.session_state or not st.session_
         st.text("Please login using the Home page.")
         st.stop()
 
-st.set_page_config(page_title="Text Policy Evaluation Demo", layout="wide") 
-st.title("Text Moderation Demo") 
+st.set_page_config(page_title="Text Policy Evaluation Demo", layout="wide")
+st.title("Text Moderation Demo")
 
-text_eval_tab, text_eval_bulk_tab, sample_tab, doc_tab = st.tabs(["Text Policy Evalution", "Text Policy Evaluation - Bulk", "Sample Reports", "Workflow"])
+text_eval_tab, text_eval_bulk_tab, sample_tab, doc_tab = st.tabs(["Text Policy Evaluation", "Text Policy Evaluation - Bulk", "Sample Reports", "Workflow"])
 
 with doc_tab:
     st.image("static/text-moderation.png", caption="Workflow diagram")
 
-def evaluate(text_content, key):    
+def evaluate(text_content, key):
     if text_content is None or len(text_content) == 0:
         st.warning("Submit a message or upload a file to initiate the evaluation.")
     else:
@@ -111,7 +111,7 @@ def evaluate(text_content, key):
                                     item["llm"]["answer"] = "Y"
                                 item["llm"]["analysis"]  += response["analysis"]
                                 item["llm"]["references"] = item["llm"]["references"] + response["references"]
-                    
+
                     lib_ui.plot_text_eval_item(item=item, index=idx)
 
                     result["evaluations"].append(item)
@@ -140,26 +140,26 @@ with text_eval_bulk_tab:
         else:
             st.warning("Invalid text file")
             st.stop()
-        
+
         evaluate(text_content, "bulk")
-    
+
 with text_eval_tab:
     st.subheader("Assess an individual text message")
     text_input = st.text_input("Enter a message and click on anywhere else on the screen")
     if text_input:
         evaluate(text_input, "text")
 
-with sample_tab: 
+with sample_tab:
     st.subheader("Sample policy evaluation report")
 
     if os.path.exists(SAMPLE_DATA_FOLDER):
-        option = st.selectbox("Select a sample report", 
+        option = st.selectbox("Select a sample report",
             tuple(file for file in os.listdir(SAMPLE_DATA_FOLDER) if os.path.isfile(os.path.join(SAMPLE_DATA_FOLDER, file)))
         )
         if option and len(option) > 0:
             # Plot UI
             file_path = f"{SAMPLE_DATA_FOLDER}{option}"
-            
+
             data = None
             # Open and read the JSON file
             with open(file_path, "r") as json_file:

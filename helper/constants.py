@@ -7,7 +7,7 @@ Please consider and provide your analysis in the <analysis> tag, keeping the ana
 <politian>Joseph R. Biden Jr., Marianne Williamson, Dean Phillips, Donald J. Trump, Nikki Haley, Vivek Ramaswamy, Asa Hutchinson, Ryan Binkley, Ron DeSantis, Chris Christie, Robert F. Kennedy Jr., Cornel West, Jill Stein, Charles Booker</politian>
 <rule>
     Topics related to healthcare and healthcare policy would be considered a suspicion of political ad content.
-    Topics involved protester and pandamic would be considered a suspicion of political ad content.
+    Topics involved protester and pandemic would be considered a suspicion of political ad content.
     Topics about personal background and aspirations around public service would be considered a suspicion of political ad content.
 <rule>
 Assistant:"""
