@@ -201,7 +201,7 @@ def call_bedrock_knowledge_base(message, prompts_template):
         policy += f'\n{r["content"]["text"]}'
 
     # Call Bedrock LLM to evaluate
-    prompt = prompts_template.format(message, policy)
+    prompt = prompts_template.format(message=message, policy=policy)
     analysis,answer = call_bedrock_llm(prompt)
 
     references = []

@@ -140,16 +140,17 @@ def generate_video_eval_html(data, file_name):
     for t in trans:
         idx += 1
         image_class = "safe"
-        if t["transcription"]["toxicity"] >= threshold and t["llm_response"]["answer"] == "Y":
+        if t["transcription"]["toxicity"] >= threshold and (t["llm_response"] and t["llm_response"]["answer"] == "Y"):
             image_class = "alert"
-        elif t["transcription"]["toxicity"] >= threshold or t["llm_response"]["answer"] == "Y":
+        elif t["transcription"]["toxicity"] >= threshold or (t["llm_response"] and t["llm_response"]["answer"] == "Y"):
             image_class = "warn"
 
         cates, refs = "", ""
         for key, value in t["transcription"]["categories"].items():
             cates += f"<li>{ key }: { value }</li>"
-        for r in t["llm_response"]["references"]:
-            refs += f'<li>{ r["text"] } - <a href="{r["s3_location"] }">Link</a></li>'
+        if t["llm_response"]:
+            for r in t["llm_response"]["references"]:
+                refs += f'<li>{ r["text"] } - <a href="{r["s3_location"] }">Link</a></li>'
 
         title = t["transcription"]["text"]
         if "start_time" in t["transcription"] and "end_time" in t["transcription"]:
@@ -170,8 +171,8 @@ def generate_video_eval_html(data, file_name):
                     </div>
                     <div>
                         <h3>LLM Response</h3>
-                        <p>Answer: { t["llm_response"]["answer"] }</p>
-                        <p>Analysis: {t["llm_response"]["analysis"] }</p>
+                        <p>Answer: { "" if t["llm_response"] is None else t["llm_response"]["answer"] }</p>
+                        <p>Analysis: {"" if t["llm_response"] is None else t["llm_response"]["analysis"] }</p>
                         <h3>References</h3>
                         <ul>{refs}</ul>
                     </div>
@@ -314,16 +315,17 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
     for t in trans:
         idx += 1
         image_class = "safe"
-        if t["toxicity"]["toxicity"] >= threshold and t["llm"]["answer"] == "Y":
+        if t["toxicity"]["toxicity"] >= threshold and (t["llm"] and t["llm"]["answer"] == "Y"):
             image_class = "alert"
-        elif t["toxicity"]["toxicity"] >= threshold or t["llm"]["answer"] == "Y":
+        elif t["toxicity"]["toxicity"] >= threshold or (t["llm"] and t["llm"]["answer"] == "Y"):
             image_class = "warn"
 
         cates, refs = "", ""
         for key, value in t["toxicity"]["categories"].items():
             cates += f"<li>{ key }: { value }</li>"
-        for r in t["llm"]["references"]:
-            refs += f'<li>{ r["text"] } - <a href="{r["s3_location"] }">Link</a></li>'
+        if t["llm"]:
+            for r in t["llm"]["references"]:
+                refs += f'<li>{ r["text"] } - <a href="{r["s3_location"] }">Link</a></li>'
 
         title = t["raw_text"]
 
@@ -342,8 +344,8 @@ def generate_text_eval_html(data, file_name, threshold=0.6):
                     </div>
                     <div>
                         <h3>LLM Response</h3>
-                        <p>Answer: { t["llm"]["answer"] }</p>
-                        <p>Analysis: {t["llm"]["analysis"] }</p>
+                        <p>Answer: { "" if t["llm"] is None else t["llm"]["answer"] }</p>
+                        <p>Analysis: {"" if t["llm"] is None else t["llm"]["analysis"] }</p>
                         <h3>References</h3>
                         <ul>{refs}</ul>
                     </div>

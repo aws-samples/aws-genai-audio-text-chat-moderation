@@ -146,7 +146,7 @@ with audio_sample_tab:
         option = st.selectbox("Select a sample audio",
             tuple(file for file in os.listdir(SAMPLE_DATA_FOLDER) if os.path.isfile(os.path.join(SAMPLE_DATA_FOLDER, file)))
         )
-        if len(option) > 0:
+        if option and len(option) > 0:
             # Plot UI
             file_path = f"{SAMPLE_DATA_FOLDER}{option}"
 
@@ -166,3 +166,10 @@ with audio_sample_tab:
                         buffer.seek(0)
                         # Create a link to download the file
                         st.download_button(label="Download File", data=buffer, file_name=f'{option}.html', key="download_button")
+
+                # Delete sample file
+                if st.button("Delete sample file"):
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                        st.text(f"Sample file deleted: {option}")
+

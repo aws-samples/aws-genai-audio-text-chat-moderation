@@ -183,3 +183,10 @@ with sample_tab:
                         buffer.seek(0)
                         # Create a link to download the file
                         st.download_button(label="Download File", data=buffer, file_name=f'{option}.html', key="download_button")
+                
+                # Delete sample file
+                if st.button("Delete sample file"):
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                        st.text(f"Sample file deleted: {option}")
+
